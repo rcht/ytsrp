@@ -1,0 +1,48 @@
+#!/usr/bin/env python
+
+import sys
+
+import requests
+from bs4 import BeautifulSoup
+
+mirror = "https://vid.puffyan.us/search?q="
+youtube = "https://youtube.com"
+
+
+term = ""
+quantity = 1
+printTitle = False
+
+args = sys.argv[1:]
+
+i = 0
+while i < len(args):
+    if args[i] == "-q":
+        i += 1
+        term = args[i]
+    elif args[i] == "-n":
+        i += 1
+        try:
+            quantity = int(args[i])
+        except:
+            exit("Number of search results provided is not an integer, aborting")
+    elif args[i] == "--title":
+        printTitle = True
+    i +=1
+
+del i
+
+if term == "":
+    exit("Search term not provided, aborting")
+
+soup = BeautifulSoup( requests.get( mirror + term ).content , 'html.parser' )
+
+titles = [*map(lambda s: repr(s)[14:-4],soup.find_all("p", dir="auto",class_=None))]
+
+urls = [i["href"] for i in soup.find_all("a",style="width:100%")]
+
+for i in range(quantity):
+    if printTitle:
+        print(titles[i])
+    print(youtube + urls[i])
+
