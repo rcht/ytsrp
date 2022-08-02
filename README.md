@@ -1,6 +1,6 @@
 # rcht/ytsrp
 
-YouTube search result parser. 
+YouTube Search Result Parser. Tool to get YouTube search results in the terminal without the need of a browser. 
 
 # Dependencies
 
