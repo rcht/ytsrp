@@ -35,7 +35,7 @@ del i
 if term == "":
     exit("Search term not provided, aborting")
 
-soup = BeautifulSoup( requests.get( mirror + term ).content , 'html.parser' )
+soup = BeautifulSoup( requests.get( mirror + term , timeout=5 ).content , 'html.parser' )
 
 titles = [*map(lambda s: repr(s)[14:-4],soup.find_all("p", dir="auto",class_=None))]
 
@@ -45,4 +45,3 @@ for i in range(quantity):
     if printTitle:
         print(titles[i])
     print(youtube + urls[i])
-
